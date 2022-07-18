@@ -14,8 +14,8 @@ RECIPIENT_EMAIL = "recipient@gmail.com"
 
 ## Google Chrome Path
 # e.g. on Windows "C:\Program Files\Google\Chrome Beta\Application\chrome.exe" for Beta if installed. Leave empty if
-# using normal versions
-CHROME_PATH = "C:\Program Files\Google\Chrome Beta\Application\chrome.exe"
+# using normal version
+CHROME_PATH = ""
 
 # some folder where selenium can save some temporary data.
 SELENIUM_ENVIRONMENT_DIR = "C:\environments\selenium"
@@ -45,7 +45,13 @@ def scrape_expose_ids(SearchUrl=None, CAPTCHA_timeout=2, headless=True):
         chrome_options.add_argument("headless")
     chrome_options.add_argument(f"user-data-dir={SELENIUM_ENVIRONMENT_DIR}")
 
+    if CHROME_PATH != "":
+        chrome_options.binary_location = CHROME_PATH
+
     browser = webdriver.Chrome(chrome_options=chrome_options)
+    str1 = browser.capabilities['browserVersion']
+    str2 = browser.capabilities['chrome']['chromedriverVersion'].split(' ')[0]
+    print(f"VERSIONS: Chrome - {str1}, ChromeDriver - {str2}")
 
     browser.get(SearchUrl)
 
