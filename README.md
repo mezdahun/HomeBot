@@ -1,5 +1,6 @@
-# HomeBot
-Scraping ImmoSCout in given time intervals and notifying recipient via email through SMTP server
+# HomeBot🤖🏘️
+
+Scraping ImmoScout according to search filters in given time intervals and notifying recipient via email through SMTP server
 
 # Instructions:
  1.  Create or have a gmail account that will be used to send out emails to the recipient. The sender and recipient can be the same email address.
