@@ -13,7 +13,7 @@ Scraping ImmoSCout in given time intervals and notifying recipient via email thr
  8.  unzip chromedriver to the same folder as where main.py is (only tested on windows, i.e. chromedriver.exe)
  9.  Set your search filters on ImmoScout (area, size of apartment, price ranges, etc) click on search and copy the url from the url bar of your browser. Paste it as the `SEARCHURL` variable (1st line) in main.py. You can see an example search url there, yours should look similar.
  10.  In case you had to download Chrome Beta, change the `CHROME_PATH` variable to the path of the Chrome Beta executable. On Windows, this is "C:\Program Files\Google\Chrome Beta\Application\chrome.exe"
- 11.  change the other parameters of main.py in the beginning, such as the sender and recipient email address. As a password use the password from the 2nd step.
+ 11.  change the other parameters of main.py in the beginning, such as the sender and recipient email address. As a password use the password you have generated in the 3rd step.
  14.  Open a command prompt and move to the folder in which main.py is. Run main.py with `py main.py` (or can also be `python main.py` or `python3 main.py` according to your installation).
  15.  Upon starting up and eventually (in every hour or so) you have to solve a captcha that will pop up.
  16.  The script will wake up in every 30 seconds in the background, scrapes ImmoScout according to your search filter (the search url you provided) and send new listings to the desired email address from the email server you have set up in the beginning.
