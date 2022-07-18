@@ -8,7 +8,7 @@ Scraping ImmoSCout in given time intervals and notifying recipient via email thr
  4.  Install Chrome if you use a different web browser
  5.  Download ChromeDriver from here: https://sites.google.com/chromium.org/driver/home
  6.  unzip chromedriver to the same folder as where main.py is (only tested on windows, i.e. chromedriver.exe)
- 7.a  Set your search filters on ImmoScout and copy the url from the url bar of your browser. Paste it as the `SEARCHURL` variable (1st line) in main.py. You can see an example searcgh url there, yours should look similar.
+ 7.  Set your search filters on ImmoScout and copy the url from the url bar of your browser. Paste it as the `SEARCHURL` variable (1st line) in main.py. You can see an example searcgh url there, yours should look similar.
  7.  change the other parameters of main.py in the beginning, such as gmail credentials and the folder where selenium can save some temporary data.
  8.  Enable IMAP and POP on your gmail account: gmail -> setting -> all settings-> security and access
  9.  Enable less secure app access in your gmail account: https://support.google.com/a/answer/6260879?hl=en
