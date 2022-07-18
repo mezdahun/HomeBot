@@ -1,12 +1,28 @@
+#########################################
+######### CHANGE SOME PARAMETERS ########
+#########################################
+
 # Replace with the URL in browser after your desired search in ImmobilienScout24
 SEARCHURL = "https://www.immobilienscout24.de/Suche/shape/wohnung-mieten?shape=a2hoX0l3ZH5vQXVsQHl7RGRVd25DcGdDelpiXXl1QG1_QGF9RXxId2NAZEBDYENJTmRGVGdGYltrQWdAcUJsRW5BaFFfZkJ9U3tyQmVmQGFdY0x1fkhiTF9tRWlRZ31AY1lsRXN0QmRmQ3d7Q2VfQF90Q3pxQWVNb0JMZEphQnRAQGpAaWBBfFBpXmJ7QHdkQnRqRG5HaHxHaGdDeGFOanRCaHxDYkBwQGxAQGhzRHRlQQ..&numberofrooms=1.5-2.0&price=-730.0&exclusioncriteria=swapflat&pricetype=calculatedtotalrent&fbclid=IwAR062sfVsI4SjJtBgjYj18dOP6I-kglSre1OSX-sNeXOKQaoOksBaFOhHHY&sorting=2"
 
 # GMail user of sender
 GMAIL_USER = 'example@gmail.com'
-GMAIL_PASSWORD = 'some_password'
+# To use the bot generate an app password for the senders gmail account (https://myaccount.google.com/apppasswords) and copy here
+GMAIL_PASSWORD = 'generated_app_password'
+# The recipient and sender can be the same
 RECIPIENT_EMAIL = "recipient@gmail.com"
-# some folder where selenium can save some temporary data
+
+## Google Chrome Path
+# e.g. on Windows "C:\Program Files\Google\Chrome Beta\Application\chrome.exe" for Beta if installed. Leave empty if
+# using normal versions
+CHROME_PATH = "C:\Program Files\Google\Chrome Beta\Application\chrome.exe"
+
+# some folder where selenium can save some temporary data.
 SELENIUM_ENVIRONMENT_DIR = "C:\environments\selenium"
+
+#########################################
+######## Don't Touch below ##############
+#########################################
 
 SENT_EXPOSES = []
 
