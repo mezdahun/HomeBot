@@ -1,6 +1,7 @@
 #########################################
 ######### CHANGE SOME PARAMETERS ########
 #########################################
+import os
 
 # Replace with the URL in browser after your desired search in ImmobilienScout24
 SEARCHURL = "https://www.immobilienscout24.de/Suche/shape/wohnung-mieten?shape=a2hoX0l3ZH5vQXVsQHl7RGRVd25DcGdDelpiXXl1QG1_QGF9RXxId2NAZEBDYENJTmRGVGdGYltrQWdAcUJsRW5BaFFfZkJ9U3tyQmVmQGFdY0x1fkhiTF9tRWlRZ31AY1lsRXN0QmRmQ3d7Q2VfQF90Q3pxQWVNb0JMZEphQnRAQGpAaWBBfFBpXmJ7QHdkQnRqRG5HaHxHaGdDeGFOanRCaHxDYkBwQGxAQGhzRHRlQQ..&numberofrooms=1.5-2.0&price=-730.0&exclusioncriteria=swapflat&pricetype=calculatedtotalrent&fbclid=IwAR062sfVsI4SjJtBgjYj18dOP6I-kglSre1OSX-sNeXOKQaoOksBaFOhHHY&sorting=2"
@@ -33,6 +34,24 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from email.message import EmailMessage
 import random
+import html_tools
+import socket
+from string import digits
+
+def get_local_ip_address():
+    # create a socket object
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # connect to any remote server just to get the local IP address
+    s.connect(('8.8.8.8', 80))
+
+    # get the local IP address of the socket
+    ip_address = s.getsockname()[0]
+
+    # close the socket
+    s.close()
+
+    return ip_address
 
 
 def scrape_expose_ids(SearchUrl=None, CAPTCHA_timeout=2, headless=True):
@@ -58,12 +77,21 @@ def scrape_expose_ids(SearchUrl=None, CAPTCHA_timeout=2, headless=True):
     html_source = browser.page_source
 
     partitions = html_source.split("data-go-to-expose-id=")
-    expids = [partstr[1:10] for partstr in partitions]
+
+    # expids are max 10 characters but can be shorter
+    expids = [''.join(c for c in partstr[1:10] if c in digits) for partstr in partitions]
     expids.pop(0)
     uexpids = []
     for eid in expids:
         if eid not in uexpids:
             uexpids.append(eid)
+            expose_url = f"https://www.immobilienscout24.de/expose/{eid}"
+            if not os.path.isfile(f"htmls/expose_{eid}.html"):
+                # save expose html source
+                browser.get(expose_url)
+                html_source = browser.page_source
+                with open(f"htmls/expose_{eid}.html", "w") as f:
+                    f.write(html_source)
 
     time.sleep(CAPTCHA_timeout)
     browser.close()
@@ -109,8 +137,15 @@ def send_expose(exp_id):
         Dearest Recipient,
 
         {random.choice(init_sentences)}
+        
+        Short Overview:
+        {html_tools.generate_html_summary(exp_id)}
 
         Check it out under https://www.immobilienscout24.de/expose/{exp_id}
+        
+        If you like the expose, you can generate an application text 
+        from the local network here: http://{get_local_ip_address()}:5050/id?id={exp_id}
+    
 
         XX,
         Your HomeBot 🤖🏘️
@@ -140,7 +175,9 @@ def check_for_new_exposes(uexpids):
         SENT_EXPOSES = uexpids
         return
 
-    for expid in uexpids:
+    for i, expid in enumerate(uexpids):
+        # if i == 0:
+        #     send_expose(expid)
         if expid not in SENT_EXPOSES:
             send_expose(expid)
             SENT_EXPOSES.append(expid)
