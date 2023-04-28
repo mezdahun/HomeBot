@@ -37,6 +37,8 @@ import random
 import html_tools
 import socket
 from string import digits
+from test_captcha import trick_captcha_if_nec
+from selenium.webdriver.common.by import By
 
 def get_local_ip_address():
     # create a socket object
@@ -63,6 +65,8 @@ def scrape_expose_ids(SearchUrl=None, CAPTCHA_timeout=2, headless=True):
     if headless:
         chrome_options.add_argument("headless")
     chrome_options.add_argument(f"user-data-dir={SELENIUM_ENVIRONMENT_DIR}")
+    chrome_options.add_argument("--start-maximized")
+    chrome_options.add_argument("--incognito")
 
     if CHROME_PATH != "":
         chrome_options.binary_location = CHROME_PATH
@@ -73,6 +77,12 @@ def scrape_expose_ids(SearchUrl=None, CAPTCHA_timeout=2, headless=True):
     print(f"VERSIONS: Chrome - {str1}, ChromeDriver - {str2}")
 
     browser.get(SearchUrl)
+    browser.implicitly_wait(3)
+    try:
+        radar_btn = browser.find_element(By.CSS_SELECTOR, 'div[class="geetest_radar_btn"]')
+        trick_captcha_if_nec(browser)
+    except:
+        pass
 
     html_source = browser.page_source
 
